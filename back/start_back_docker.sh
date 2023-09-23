@@ -1,0 +1,1 @@
+docker run -tip 8000:8000 -e PG_HOST=localhost -e PG_USER=postgres -e PG_PASS=postgres -e PG_DB=postgres --net=host cours-k8s-back

@@ -1,0 +1,1 @@
+docker run -tip 8001:8001 -e API_URL="http://localhost:8000/" -e PORT=8001 --net=host cours-k8s-front

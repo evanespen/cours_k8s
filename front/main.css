@@ -1,0 +1,42 @@
+html, * {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 80vw;
+    margin-left: 10vw;
+    font-family: sans-serif;
+}
+
+#header {
+    width: 100vw;
+    margin-left: -10vw;
+    background-color: #505050;
+    color: white;
+    padding: 30px;
+}
+
+#usercards {
+    margin-top: 5vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.usercard {
+    background: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, .2);
+    width: 38vw;
+}
+
+.usercard div {
+    display: flex;
+    flex-direction: row;
+}
+
+.label {
+    width: 20%;
+}
