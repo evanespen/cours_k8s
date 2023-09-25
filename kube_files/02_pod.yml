@@ -3,12 +3,15 @@ kind: Pod
 metadata:
   namespace: profiles-app
   name: profiles-app
+  labels:
+    run: profiles-app
 spec:
   containers:
   - name: database
     image: ghcr.io/evanespen/cours_k8s/cours-k8s-db:latest
     ports:
     - containerPort: 5432
+      name: database-port
     env:
     - name: POSTGRES_USER
       value: "postgres"
@@ -21,6 +24,7 @@ spec:
     image: ghcr.io/evanespen/cours_k8s/cours-k8s-back:latest
     ports:
     - containerPort: 8000
+      name: backend-port
     env:
     - name: PG_HOST
       value: "localhost"
@@ -35,6 +39,7 @@ spec:
     image: ghcr.io/evanespen/cours_k8s/cours-k8s-front:latest
     ports:
     - containerPort: 8001
+      name: frontend-port
     env:
     - name: API_URL
       value: "http://localhost:8000/"

@@ -1,0 +1,29 @@
+# before run
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+
+# then run this to get token
+# kubectl -n kubernetes-dashboard create token admin-user
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+---
+# eyJhbGciOiJSUzI1NiIsImtpZCI6Ik5UTm1pSU9mTjkxd3FHOGZ2WFgzeHdyY3h4TkVEQUpiTEJNeU9JaU83QXcifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjk1Mzk5NDEzLCJpYXQiOjE2OTUzOTU4MTMsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiNDhlNGMxYjgtZjkzNS00ZDQ0LWI2NzEtYzIzOTg1ZTQzNGJjIn19LCJuYmYiOjE2OTUzOTU4MTMsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.LiU1LYqhDc3PeQXOH6R_qVAQem5EFRrfckEo8ERNNrSSLNhjbnqxga5MmTZeCfqjzYuh0-Wadtq5OWc_3jeErQlW5Hx_CX4UpDhXIQCjyyEkt4K_IuCX__0QBCAOvdaoV4FJHfgmwYiv84Ato78a1-eVK1niKgvihHpvK-_uqmvHDimf2ADrWADEm9gu_x5sFzuGNTRqj6vUTtJ9hxOnux9Ke9UBuTVlP8ciWwSlwDqJM5HYvUW4bppDEvNfNmvIY5Uk4rDgadHMUkDbJNAfqvAwrR9tnXsEkN_U3LdCM6YBNE-Ehsf5ptskzRywjx1R2hSQ0z6zN9uZQJrmX5DbSw

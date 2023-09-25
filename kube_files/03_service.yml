@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: profiles-app  
+  name: profiles-app-svc
+  labels:
+    run: profiles-app
+spec:
+  # clusterIP: 10.96.168.73
+  # clusterIPs:
+  # - 10.96.168.73
+  # internalTrafficPolicy: Cluster
+  # ipFamilies:
+  # - IPv4
+  # ipFamilyPolicy: SingleStack
+  ports:
+  - name: backend
+    port: 8000
+    protocol: TCP
+    targetPort: backend-port
+  - name: frontend
+    port: 8001
+    protocol: TCP
+    targetPort: frontend-port
+  selector:
+    run: profiles-app
+  # sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer: {}

@@ -1,0 +1,64 @@
+* Démarrage de /minikube/
+Lancer /minikube/ avec ces options :
+
+#+begin_example
+docker network create --subnet 192.168.1.0/24 --driver bridge minikube
+
+minikube start \
+    --driver docker \
+    --extra-config=apiserver.service-node-port-range=1-65535 \
+    --network host \
+    --static-ip 192.168.1.200
+
+### OR ###
+
+minikube start \
+    --driver docker \
+    --extra-config=apiserver.service-node-port-range=1-65535
+#+end_example
+
+* Accéder au /front/
+=kubectl -n profiles-app port-forward pods/profiles-app 8080:8001=
+=kubectl -n profiles-app port-forward pods/profiles-app 8000:8000=
+
+
+* Accéder au service
+Avant tout, lancer la commande =minikube tunnel=.
+
+Voir [[https://minikube.sigs.k8s.io/docs/handbook/accessing/][https://minikube.sigs.k8s.io/docs/handbook/accessing/]].
+
+Après avoir appliqué le fichier =03_service.yml=, lancer la commande =kubectl -n profiles-app get svc= pour récuperer l'adresse IP du service.
+
+#+begin_example
+NAME               TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)                         AGE
+profiles-app-svc   LoadBalancer   10.104.95.83   10.104.95.83   8000:62116/TCP,8001:38034/TCP   3m23s
+#+end_example
+
+Ici, l'adresse ip est =10.104.95.83=.
+Il est donc possible de contacter l'API via =10.104.95.83:8000=
+
+* /Ingress/
+[[https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/][https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/]]
+
+Commencer par activer l'/ingress/ /nginx/ de /minikube/ : =minikube addons enable ingress=.
+
+Ensuite vérifier qu'il est bien actif : =kubectl get pods -n ingress-nginx=.
+La sortie doit etre similaire à :
+
+#+begin_example
+NAME                                        READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-hp52j        0/1     Completed   0          46s
+ingress-nginx-admission-patch-5pwf4         0/1     Completed   1          46s
+ingress-nginx-controller-7799c6795f-srx2p   1/1     Running     0          46s
+#+end_example
+
+Appliquer le fichier =04_ingress.yml=.
+
+Une fois que l'/ingress/ est appliqué et actif, on peux vérifier que le site est accessible avec la commande :
+
+#+begin_example
+curl --resolve "profiles-app.local:80:$( minikube ip )" -i http://profiles-app.local
+#+end_example
+
+* Documentations
+- /pods/ et /services/ :: [[https://kubernetes.io/docs/tutorials/services/connect-applications-service/][https://kubernetes.io/docs/tutorials/services/connect-applications-service/]]
