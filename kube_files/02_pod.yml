@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: profiles-app
+  name: profiles-app
+spec:
+  containers:
+  - name: database
+    image: ghcr.io/evanespen/cours_k8s/cours-k8s-db:latest
+    ports:
+    - containerPort: 5432
+    env:
+    - name: POSTGRES_USER
+      value: "postgres"
+    - name: POSTGRES_PASSWORD
+      value: "postgres"
+    - name: POSTGRES_DB
+      value: "postgres"
+
+  - name: backend
+    image: ghcr.io/evanespen/cours_k8s/cours-k8s-back:latest
+    ports:
+    - containerPort: 8000
+    env:
+    - name: PG_HOST
+      value: "localhost"
+    - name: PG_USER
+      value: "postgres"
+    - name: PG_PASS
+      value: "postgres"
+    - name: PG_DB
+      value: "postgres"
+
+  - name: frontend
+    image: ghcr.io/evanespen/cours_k8s/cours-k8s-front:latest
+    ports:
+    - containerPort: 8001
+    env:
+    - name: API_URL
+      value: "http://localhost:8000/"
+    - name: PORT
+      value: "8001"

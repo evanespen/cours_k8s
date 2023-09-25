@@ -1,0 +1,45 @@
+Images /docker/ pour le cours de /Kubernetes/
+
+Ces images seront utilisées pendant les démos et les TP de sorte à fournir une base de travail simple à apréhender lors des exercices de déploiement sur /Kubernetes/.
+
+
+* Image =db=
+
+=ghcr.io/evanespen/cours-k8s-db:latest=
+
+Cette image contient une base de données /postgresql/ contenant déja des données (de faux profils de faux utilisateurs).
+
+Cette image expose la base de donnée sur le port par défaut de /postgres/, =5432=.
+
+** Variables
+- =POSTGRES_USER= :: le nom d'utilisateur qui sera créé
+- =POSTGRESS_PASSWORD= :: le mot de passe de l'utilisateur
+- =POSTGRES_DB= :: le nom de la base de données qui sera créée
+
+
+* Image =back=
+
+=ghcr.io/evanespen/cours-k8s-back:latest=
+
+Cette image contient une simple API qui retourne la liste des faux profils récupérés sur la base de données.
+
+Cette image expose l'API sur le port =8000=.
+
+** Variables
+- =PG_HOST= :: le nom d'hôte de la base de données
+- =PG_USER= :: le nom d'utilisateur pour accéder à la base de données
+- =PG_PASS= :: le mot de passe pour accéder à la base de données
+- =PG_DB= :: le nom de la base de données à utiliser
+
+
+* Image =front=
+
+=ghcr.io/evanespen/cours-k8s-front:latest=
+
+Cette image contient un serveur web proposant une simple page qui affiche la liste des faux profils récupérés sur l'API.
+
+Cette image expose le serveur web sur le port =8001= par défaut mais vous pouvez le configurer via la variable d'environemment =PORT=.
+
+** Variables d'environemment
+- =API_URL= :: l'URL de l'API
+- =PORT= :: le port sur lequel lancer le serveur web
